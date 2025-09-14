@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CSRF_TRUSTED_ORIGINS = ['https://8000-cs-7447bc6d-bc2c-42fa-b1b5-f19207e07cdf.cs-asia-southeast1-yelo.cloudshell.dev']
+
 
 # Application definition
 

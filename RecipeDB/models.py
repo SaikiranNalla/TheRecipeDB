@@ -7,19 +7,22 @@ from django.contrib.postgres.fields import JSONField
 # Create your models here.
 class UserManager(BaseUserManager):
     """Manager for users"""
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, name, email, password=None):
         """Create, save and return a new user"""
         if not email:
             raise ValueError('User must have an email address')
-        user = self.model(email=self.normalize_email(email), **extra_fields)
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, name=name)
+
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, name, password):
+    def create_superuser(self, name, email, password):
         """Create and return a new superuser"""
-        user = self.create_user(email, name, password)
+        user = self.create_user(name, email, password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
