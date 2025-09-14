@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 import json
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField, Model, CharField
 
 
 # Create your models here.
@@ -52,6 +52,32 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Return string representation of our user"""
         return self.email
 
+
+
+
+class Recipe(models.Model):
+    title = models.CharField(max_length=255, db_index=True) 
+    alt_names = JSONField(blank=True, null=True, default=list)
+    ingredients = JSONField(blank=True, null=True, default=list)
+    method = JSONField(blank=True, null=True, default=list)
+    tips = JSONField(blank=True, null=True, default=list)
+
+
+    class Meta:
+        ordering = ['title']
+        indexes = [
+            models.Index(fields=['title']),
+            models.Index(fields=['alt_names']),
+        ]
+
+    def save(self, *args, **kwargs):
+        if not self.alt_names:
+            self.alt_names = [self.title]
+        super().save(*args, **kwargs)
+    
+
+    def __str__(self):
+        return self.title
 
 
 
