@@ -11,9 +11,16 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# os.path.join(BASE_DIR, 'static')
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,11 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_&tus^(nn&fny4afk4dt&wt($2pl-8u^&7@rbzou611+50-h^z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-cs-7447bc6d-bc2c-42fa-b1b5-f19207e07cdf.cs-asia-southeast1-yelo.cloudshell.dev']
+# CSRF_TRUSTED_ORIGINS = ['https://8000-cs-7447bc6d-bc2c-42fa-b1b5-f19207e07cdf.cs-asia-southeast1-yelo.cloudshell.dev']
 
 
 # Application definition
@@ -76,12 +83,24 @@ WSGI_APPLICATION = 'TheRecipeDB.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+
+
+
 
 
 # Password validation
