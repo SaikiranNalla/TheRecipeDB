@@ -10,6 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+"""
+Production check list:
+- Debug = False
+- ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com', '127.0.0.1']
+- CSRF_TRUSTED_ORIGINS = ['https://8000-]
+
+"""
+
 from pathlib import Path
 import os
 
@@ -30,11 +39,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_&tus^(nn&fny4afk4dt&wt($2pl-8u^&7@rbzou611+50-h^z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-cs-199691075556-default.cs-asia-southeast1-seal.cloudshell.dev']
+# CSRF_TRUSTED_ORIGINS = ['https://8000-cs-199691075556-default.cs-asia-southeast1-seal.cloudshell.dev']
 
 
 # Application definition
