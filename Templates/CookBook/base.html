@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CookBook - Recipe Management{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'cookbook/css/style.css' %}">
+    
+    <style>
+        :root {
+            --primary-brand: #2E7D32;
+            --accent-color: #1565C0;
+            --warning-color: #F57C00;
+            --light-bg: #FFFFFF;
+            --light-secondary: #F5F5F5;
+        }
+        
+        [data-bs-theme="dark"] {
+            --primary-brand: #2E7D32;
+            --accent-color: #1565C0;
+            --warning-color: #F57C00;
+            --light-bg: #1A1A1A;
+            --light-secondary: #2D2D2D;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--light-bg);
+            color: #212121;
+        }
+        
+        [data-bs-theme="dark"] body {
+            background-color: #1A1A1A;
+            color: #E0E0E0;
+        }
+        
+        .navbar {
+            background-color: var(--primary-brand) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.85) !important;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: white !important;
+        }
+        
+        .content-wrapper {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        footer {
+            background-color: var(--light-secondary);
+            color: #757575;
+            padding: 2rem 0;
+            margin-top: auto;
+            text-align: center;
+            border-top: 1px solid #EEEEEE;
+        }
+        
+        [data-bs-theme="dark"] footer {
+            background-color: #2D2D2D;
+            color: #B0B0B0;
+            border-top-color: #404040;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-brand);
+            border-color: var(--primary-brand);
+        }
+        
+        .btn-primary:hover {
+            background-color: #1B5E20;
+            border-color: #1B5E20;
+        }
+        
+        .card {
+            border: 1px solid #E0E0E0;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        [data-bs-theme="dark"] .card {
+            border-color: #404040;
+            background-color: #2D2D2D;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        [data-bs-theme="dark"] .card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        
+        .badge {
+            padding: 0.5em 0.8em;
+            font-weight: 500;
+        }
+        
+        .btn-theme-toggle {
+            background-color: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-theme-toggle:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'CookBook:home' %}">
+                <i class="bi bi-book"></i> CookBook
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CookBook:home' %}">
+                            <i class="bi bi-house"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CookBook:selected_recipes' %}">
+                            <i class="bi bi-check-circle"></i> Selected <span class="badge bg-warning">{{ selected_count }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CookBook:api_docs' %}">
+                            <i class="bi bi-code-square"></i> API Docs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CookBook:about' %}">
+                            <i class="bi bi-info-circle"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/" target="_blank">
+                            <i class="bi bi-gear"></i> Admin
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="btn btn-theme-toggle" id="themeToggle">
+                            <i class="bi bi-moon-stars" id="themeIcon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="main-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container-fluid">
+            <p class="mb-1">&copy; 2025 CookBook Application</p>
+            <p class="small">Recipe Management & Grocery List Generator | Osmania University MCA Project</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dark Mode Toggle -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-bs-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-sun-fill';
+            } else {
+                themeIcon.className = 'bi bi-moon-stars';
+            }
+        }
+    </script>
+    
+    {% load static %}
+    <script src="{% static 'cookbook/js/script.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

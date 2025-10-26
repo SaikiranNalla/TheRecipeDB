@@ -1,0 +1,103 @@
+{% extends 'CookBook/base.html' %}
+
+{% block title %}Grocery List - CookBook{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5">
+            <i class="bi bi-cart-check" style="color: #2E7D32;"></i> Your Grocery List
+        </h1>
+        <p class="text-muted">{{ item_count }} items from {{ recipe_count }} recipes</p>
+    </div>
+</div>
+
+{% if grocery_list %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Shopping List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for item in grocery_list %}
+                    <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" value="">
+                        <span>{{ item }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="bi bi-printer"></i> Print List
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="downloadList()">
+                        <i class="bi bi-download"></i> Download
+                    </button>
+                    <a href="{% url 'CookBook:home' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Back to Recipes
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6 class="mb-0">Selected Recipes</h6>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for recipe in recipes %}
+                <li class="list-group-item">
+                    <strong>{{ recipe.title }}</strong>
+                    <br>
+                    <small class="text-muted">{{ recipe.ingredients|length }} ingredients</small>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-lightbulb"></i> Shopping Tips</h6>
+            </div>
+            <div class="card-body small">
+                <ul class="mb-0">
+                    <li>Check expiry dates</li>
+                    <li>Compare prices</li>
+                    <li>Buy seasonal produce</li>
+                    <li>Check offers & discounts</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> No grocery list generated. Go back and select recipes.
+</div>
+<a href="{% url 'cookbook:home' %}" class="btn btn-primary">
+    <i class="bi bi-arrow-left"></i> Back to Recipes
+</a>
+{% endif %}
+
+<script>
+function downloadList() {
+    const items = Array.from(document.querySelectorAll('.list-group-item span'))
+        .map(el => el.textContent)
+        .join('\n');
+    
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(items));
+    element.setAttribute('download', 'grocery_list.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+</script>
+{% endblock %}

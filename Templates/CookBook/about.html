@@ -1,0 +1,124 @@
+{% extends 'CookBook/base.html' %}
+
+{% block title %}About - CookBook{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4">
+                <i class="bi bi-info-circle" style="color: #2E7D32;"></i> About CookBook
+            </h1>
+            <p class="lead">Recipe Management & Grocery List Generator</p>
+        </div>
+        
+        <!-- Project Overview -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <i class="bi bi-bullseye" style="color: #2E7D32;"></i> Project Overview
+                </h4>
+                <p>
+                    CookBook is a comprehensive recipe management system that simplifies meal planning and grocery shopping. 
+                    Browse recipes, select your favorites, and automatically generate consolidated grocery lists without duplicates.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Key Features -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <i class="bi bi-star" style="color: #F57C00;"></i> Key Features
+                </h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Browse recipes with search and filters</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Select multiple recipes for meal planning</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Automatic grocery list generation</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Duplicate ingredient elimination</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Interactive checkbox shopping list</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Dark mode support</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> RESTful API endpoints</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Responsive design</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Technology Stack -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Backend</h6>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Python 3.9+</li>
+                        <li class="list-group-item">Django 4.2</li>
+                        <li class="list-group-item">Django REST Framework</li>
+                        <li class="list-group-item">PostgreSQL</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Frontend</h6>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">HTML5</li>
+                        <li class="list-group-item">CSS3</li>
+                        <li class="list-group-item">Bootstrap 5</li>
+                        <li class="list-group-item">JavaScript</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Project Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Academic Project</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <tr>
+                        <th>Student Name</th>
+                        <td>Saikiran Nalla</td>
+                    </tr>
+                    <tr>
+                        <th>Registration No.</th>
+                        <td>094245510370</td>
+                    </tr>
+                    <tr>
+                        <th>Course</th>
+                        <td>Master of Computer Applications (M.C.A)</td>
+                    </tr>
+                    <tr>
+                        <th>University</th>
+                        <td>Osmania University, Hyderabad</td>
+                    </tr>
+                    <tr>
+                        <th>Guide</th>
+                        <td>Mrs. SUKANYA, Asst. Professor, Dept. CSE, UCE(A), OU</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- How It Works -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">How It Works</h5>
+            </div>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item">Browse recipes and use filters to find what you need</li>
+                <li class="list-group-item">Select recipes for your meal plan</li>
+                <li class="list-group-item">Review your selected recipes</li>
+                <li class="list-group-item">Generate a consolidated grocery list</li>
+                <li class="list-group-item">Use the checklist while shopping</li>
+                <li class="list-group-item">Print or download your list</li>
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}

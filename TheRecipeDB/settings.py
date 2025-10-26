@@ -30,11 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_&tus^(nn&fny4afk4dt&wt($2pl-8u^&7@rbzou611+50-h^z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com']
+ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com', '127.0.0.1']
 
-# CSRF_TRUSTED_ORIGINS = ['https://8000-cs-7447bc6d-bc2c-42fa-b1b5-f19207e07cdf.cs-asia-southeast1-yelo.cloudshell.dev']
+CSRF_TRUSTED_ORIGINS = ['https://8000-cs-199691075556-default.cs-asia-southeast1-seal.cloudshell.dev']
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'RecipeAPI',
+    'CookBook.apps.CookbookConfig',
     'rest_framework',
 ]
 
@@ -58,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'TheRecipeDB.urls'
@@ -65,7 +68,7 @@ ROOT_URLCONF = 'TheRecipeDB.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,7 +140,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",  # Project-level static directory
+# ]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'), # Replace 'static' with your actual root static folder name if different
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

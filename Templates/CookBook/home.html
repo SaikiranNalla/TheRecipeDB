@@ -1,0 +1,140 @@
+{% extends 'CookBook/base.html' %}
+
+{% block title %}Home - CookBook{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5 mb-2">
+            <i class="bi bi-book-half" style="color: #2E7D32;"></i> Recipe Browser
+        </h1>
+        <p class="lead text-muted">Discover recipes and build your grocery list</p>
+    </div>
+    
+</div>
+
+<!-- Search and Filter Section -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="search" placeholder="Search recipes..." 
+                       value="{{ search_query }}" aria-label="Search recipes">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="category" aria-label="Filter by category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}" {% if category == category_filter %}selected{% endif %}>
+                        {{ category }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="type" aria-label="Filter by type">
+                    <option value="">All Types</option>
+                    {% for type in types %}
+                    <option value="{{ type }}" {% if type == type_filter %}selected{% endif %}>
+                        {{ type }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Recipes Grid -->
+{% if recipes %}
+    <div class="row g-4">
+        {% for recipe in recipes %}
+        <div class="col-sm-6 col-lg-4">
+            <div class="card recipe-card h-100">
+                <div class="card-body">
+                    <div class="mb-2">
+                        {% if recipe.type == 'Veg' %}
+                            <span class="badge bg-success">{{ recipe.type }}</span>
+                        {% elif recipe.type == 'Non-Veg' %}
+                            <span class="badge bg-danger">{{ recipe.type }}</span>
+                        {% elif recipe.type == 'Vegan' %}
+                            <span class="badge bg-info">{{ recipe.type }}</span>
+                        {% else %}
+                            <span class="badge bg-warning">{{ recipe.type }}</span>
+                        {% endif %}
+                        {% if recipe.category %}
+                            <span class="badge bg-secondary">{{ recipe.category }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h5 class="card-title text-truncate" title="{{ recipe.title }}">{{ recipe.title }}</h5>
+                    <p class="card-text small text-muted">
+                        <i class="bi bi-egg"></i> {{ recipe.ingredients|length }} ingredients
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'CookBook:recipe_detail' recipe.id %}" class="btn btn-sm btn-outline-primary flex-grow-1">
+                            <i class="bi bi-eye"></i> View
+                        </a>
+                        <button class="btn btn-sm btn-success select-recipe-btn" data-recipe-id="{{ recipe.id }}" 
+                                onclick="selectRecipe('{{ recipe.id }}')">
+                            <i class="bi bi-plus-circle"></i> Select
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> No recipes found. Try adjusting your filters.
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function selectRecipe(recipeId) {
+    fetch(`/select/${recipeId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            // Update badge
+            document.querySelectorAll('[href$="Selected"]').forEach(el => {
+                el.innerHTML = `<i class="bi bi-check-circle"></i> Selected <span class="badge bg-warning">${data.selected_count}</span>`;
+            });
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}
