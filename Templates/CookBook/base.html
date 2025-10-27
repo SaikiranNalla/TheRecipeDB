@@ -142,6 +142,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <form style="display:none;">{% csrf_token %}</form>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid">
