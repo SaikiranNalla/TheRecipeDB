@@ -45,6 +45,9 @@ ALLOWED_HOSTS = ['saikiran26499.pythonanywhere.com']
 
 # CSRF_TRUSTED_ORIGINS = ['https://8000-cs-199691075556-default.cs-asia-southeast1-seal.cloudshell.dev']
 
+# SECURE_SSL_REDIRECT = False
+# SESSION_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE = False   
 
 # Application definition
 

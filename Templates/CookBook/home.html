@@ -97,6 +97,15 @@
         <i class="bi bi-info-circle"></i> No recipes found. Try adjusting your filters.
     </div>
 {% endif %}
+
+<!-- Floating button for selected recipes -->
+<a href="{% url 'CookBook:selected_recipes' %}" class="btn btn-success btn-lg rounded-pill position-fixed bottom-0 end-0 m-4 shadow-lg" 
+    style="z-index: 1030; {% if selected_count <= 0 %}display: none;{% endif %}" 
+    id="floating-selected-btn">
+    <i class="bi bi-check-circle-fill"></i>
+    <span class="badge bg-light text-dark" id="floating-selected-count">{{ selected_count }}</span>
+</a>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -113,12 +122,26 @@ function selectRecipe(recipeId) {
     .then(data => {
         if (data.success) {
             alert(data.message);
-            // Update badge
-            document.querySelectorAll('[href$="Selected"]').forEach(el => {
-                el.innerHTML = `<i class="bi bi-check-circle"></i> Selected <span class="badge bg-warning">${data.selected_count}</span>`;
-            });
+
+            // Update Navbar badge
+            const link = document.getElementById('selected-count-link');
+            if (link) {
+                link.innerHTML = `<i class="bi bi-check-circle"></i> Selected <span class="badge bg-warning">${data.selected_count}</span>`;
+            }
+
+            // Update floating button
+            const floatingCount = document.getElementById('floating-selected-count');
+            if (floatingCount) {
+                floatingCount.textContent = data.selected_count;
+            }
+
+            // Show/hide floating button based on count
+            const floatingBtn = document.getElementById('floating-selected-btn');
+            if (floatingBtn) {
+                floatingBtn.style.display = data.selected_count > 0 ? 'block' : 'none';
+            }
         }
-    })
+    })   
     .catch(error => console.error('Error:', error));
 }
 

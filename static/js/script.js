@@ -16,8 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeEventListeners() {
     // Recipe selection buttons
     document.querySelectorAll('.select-recipe-btn').forEach(button => {
+        // button.replaceWith(button.cloneNode(true));
         button.addEventListener('click', function(e) {
             e.preventDefault();
+            // const recipeId = this.dataset.recipeId; // Ensure data-recipe-id is set
+            // selectRecipe(recipeId); // ← Missing call
         });
     });
 }

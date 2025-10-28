@@ -133,16 +133,31 @@ def select_recipe(request, recipe_id):
     """
     selected_recipes = request.session.get('selected_recipes', [])
     
-    if recipe_id not in selected_recipes:
-        selected_recipes.append(recipe_id)
-        request.session['selected_recipes'] = selected_recipes
-        request.session.modified = True
+    # if recipe_id not in selected_recipes:
+    #     selected_recipes.append(recipe_id)
+    #     request.session['selected_recipes'] = selected_recipes
+    #     request.session.modified = True
     
-    return JsonResponse({
-        'success': True,
-        'selected_count': len(selected_recipes),
-        'message': 'Recipe added to selection'
-    })
+    # return JsonResponse({
+    #     'success': True,
+    #     'selected_count': len(selected_recipes),
+    #     'message': f'Recipe {recipe_title} added to selection'
+    # })
+
+    try:
+        recipe = Recipe.objects.get(id=recipe_id)
+        if recipe_id not in selected_recipes:
+            selected_recipes.append(recipe_id)
+            request.session['selected_recipes'] = selected_recipes
+            request.session.modified = True
+        
+        return JsonResponse({
+            'success': True,
+            'selected_count': len(selected_recipes),
+            'message': f'Recipe "{recipe.title}" added to selection'
+        })
+    except Recipe.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Recipe not found'}, status=404)
 
 
 @require_http_methods(["POST"])
